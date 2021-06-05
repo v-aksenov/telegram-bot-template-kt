@@ -1,4 +1,4 @@
-package me.aksenov.springbootstarterkt
+package me.aksenov.likeolike
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
