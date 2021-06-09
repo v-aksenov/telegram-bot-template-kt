@@ -20,12 +20,15 @@ class Bot(
     override fun onUpdateReceived(update: Update) {
         log.info(update.toString())
         Character.toChars(0x2764).toString()
-        if (update.message.hasLike()) sendLikeMessage(update.message.chatId.toString())
-        if (update.message.isChannelMessage) log.info("channelMessage")
+        if (update.message.hasLike()) {
+            update.message.replyToMessage?.let {
+                sendReplyLikeMessage(update.message.chatId.toString(), update.message.from.firstName, it.from.firstName)
+            }
+        }
     }
 
-    private fun sendLikeMessage(chatId: String) {
-        sendApiMethod(SendMessage(chatId, "Like you!"))
+    private fun sendReplyLikeMessage(chatId: String, likeSender: String, likeReceiver: String) {
+        sendApiMethod(SendMessage(chatId, "$likeSender liked $likeReceiver"))
     }
 
     override fun getBotUsername(): String = username
