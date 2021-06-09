@@ -1,6 +1,7 @@
 package me.aksenov.likeolike.bot
 
 import me.aksenov.likeolike.Logger
+import me.aksenov.likeolike.utils.hasLike
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
@@ -17,8 +18,14 @@ class Bot(
 ) : TelegramLongPollingBot(), Logger {
 
     override fun onUpdateReceived(update: Update) {
-        sendApiMethod(SendMessage(update.message.chatId.toString(), "Like you!"))
         log.info(update.toString())
+        Character.toChars(0x2764).toString()
+        if (update.message.hasLike()) sendLikeMessage(update.message.chatId.toString())
+        if (update.message.isChannelMessage) log.info("channelMessage")
+    }
+
+    private fun sendLikeMessage(chatId: String) {
+        sendApiMethod(SendMessage(chatId, "Like you!"))
     }
 
     override fun getBotUsername(): String = username
